@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ titulo }} | Taller de Arte{% endblock %}
+
+{% block contenido %}
+<div class="main-content">
+    
+    <div class="page-header" style="border: none;">
+        <h2>{{ titulo }}</h2>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="form-styled">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+        <div class="actions">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            
+            <a href="{% url 'app_curso:listar_cursos' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+    
+</div>
+{% endblock %}

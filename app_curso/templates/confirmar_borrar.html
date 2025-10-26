@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block titulo %}Confirmar Eliminación | Taller de Arte{% endblock %}
+
+{% block contenido %}
+<div class="main-content">
+    
+    <div class="delete-confirmation-card">
+        
+        <h2 class="warning-title">
+            ⚠️ ¿Estás seguro de eliminar? ⚠️
+        </h2>
+        
+        <p class="warning-message">
+            Estás a punto de eliminar el curso: 
+            <strong class="course-name-to-delete">{{ curso.nombre_curso }}</strong>.
+        </p>
+        
+        <p class="consequence-message">
+            Esta acción es irreversible y también eliminará todos los materiales y la foto asociados.
+        </p>
+
+        <form method="post" class="actions-confirm">
+            {% csrf_token %}
+            
+            <button type="submit" class="btn btn-danger btn-large">
+                Sí, Eliminar Permanentemente
+            </button>
+            
+            <a href="{% url 'app_curso:detalle_curso' curso.id %}" class="btn btn-secondary btn-large">
+                Cancelar y Volver
+            </a>
+        </form>
+    </div>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ curso.nombre_curso }} | Taller de Arte{% endblock %}
+
+{% block contenido %}
+
+<article class="curso-detail">
+    <div class="curso-banner">
+        {% if curso.foto %}
+            <img src="{{ curso.foto.url }}" alt="Foto de {{ curso.nombre_curso }}" class="detail-photo">
+        {% else %}
+            <div class="detail-placeholder">🎨</div>
+        {% endif %}
+        <div class="curso-info">
+            <h1>{{ curso.nombre_curso }}</h1>
+            <h3>Costo: ${{ curso.costo }}</h3>
+            <p>Duración: {{ curso.duracion_semanas }} semanas</p>
+            <p>Estudiantes: {{ curso.estudiantes }}</p>
+            <p>Descripción: {{ curso.descripcion }}</p>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'app_curso:listar_cursos' %}" class="btn btn-secondary">
+            Regresar a Cursos
+        </a>
+        <a href="{% url 'app_curso:editar_curso' curso.id %}" class="btn btn-primary">Editar Curso</a>
+        <a href="{% url 'app_curso:borrar_curso' curso.id %}" class="btn btn-danger">Borrar Curso</a>
+    </div>
+    <section class="materiales-section">
+    <h2>Materiales Requeridos</h2>
+    {% if curso.materiales_requeridos.all %}
+    
+    <div class="material-grid"> 
+        {% for material in curso.materiales_requeridos.all %}
+        
+        <div class="material-card">
+            
+            <div class="material-header">
+                <strong class="material-name">{{ material.nombre_material }}</strong> 
+                <span class="type-badge">{{ material.tipo_material }}</span>
+            </div>
+            
+            <div class="material-body">
+                <p>Proveedor: {{ material.proveedor|default:"N/A" }}</p>
+                <p class="material-costo">Costo Unitario: ${{ material.costo_unitario }}</p>
+            </div>
+            
+            <div class="material-footer">
+                <span class="stock-label">En Stock:</span> 
+                <span class="stock-value">{{ material.en_stock }}</span>
+            </div>
+            
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% else %}
+    <p class="empty-message">No hay materiales registrados para este curso.</p>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}Cursos Registrados | Taller de Arte{% endblock %}
+
+{% block contenido %}
+<div class="page-header">
+    <h2>Cursos Registrados</h2>
+    <a href="{% url 'app_curso:crear_curso' %}" class="btn btn-primary">+ Agregar Curso</a>
+</div>
+
+{% if cursos %}
+<ul class="curso-grid">
+    {% for curso in cursos %}
+    <li class="curso-card">
+        <a href="{% url 'app_curso:detalle_curso' curso.id %}">
+            
+            {% if curso.foto %}
+                <img src="{{ curso.foto.url }}" alt="Foto de {{ curso.nombre_curso }}" class="curso-img">
+            {% else %}
+                <div class="curso-placeholder">🎨</div> 
+            {% endif %}
+
+            <div class="card-content">
+                
+                <h3>{{ curso.nombre_curso }}</h3>
+
+                <p class="curso-detail-item">
+                    <i class="fas fa-dollar-sign icon-small"></i> <span class="detail-label">Costo:</span> ${{ curso.costo|floatformat:2 }}
+                </p>
+                <p class="curso-detail-item">
+                    <i class="fas fa-calendar-alt icon-small"></i> <span class="detail-label">Duración:</span> {{ curso.duracion_semanas }} semanas
+                </p>
+                <p class="curso-detail-item">
+                    <i class="fas fa-users icon-small"></i> <span class="detail-label">Estudiantes:</span> {{ curso.estudiantes }}
+                </p>
+                <p class="curso-description">{{ curso.descripcion|truncatechars:70 }}</p>
+                
+            </div>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p class="empty-message">No hay cursos registrados.</p>
+{% endif %}
+{% endblock %}
